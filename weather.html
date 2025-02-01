@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function toggleTemp() {
+            let feelsLike = document.getElementById('feels-like');
+            let highLow = document.getElementById('high-low');
+            feelsLike.classList.toggle('hidden');
+            highLow.classList.toggle('hidden');
+        }
+
+        function allowDrag(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            let data = event.dataTransfer.getData("text");
+            let draggedElement = document.getElementById(data);
+            let dropTarget = event.target.closest(".draggable");
+            if (dropTarget && draggedElement) {
+                let parent = dropTarget.parentNode;
+                parent.insertBefore(draggedElement, dropTarget.nextSibling);
+            }
+        }
+    </script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gradient-to-b from-blue-300 to-orange-200 p-4">
+    <div class="w-full max-w-xs">
+        <div id="location" class="bg-white shadow-lg rounded-lg py-6 px-4 mb-4 text-center draggable" draggable="true" ondragstart="drag(event)" ondragover="allowDrag(event)" ondrop="drop(event)">
+            <h1 class="text-2xl font-bold">Philadelphia</h1>
+        </div>
+        
+        <div id="temp-box" class="flex justify-between items-center bg-white shadow-lg rounded-lg py-6 px-4 mb-4 draggable" draggable="true" ondragstart="drag(event)" ondragover="allowDrag(event)" ondrop="drop(event)" onclick="toggleTemp()">
+            <div class="text-left">
+                <div class="text-6xl font-bold">30&deg;</div>
+                <div id="feels-like" class="text-sm">Feels like 25&deg;</div>
+                <div id="high-low" class="text-sm hidden">H: 35&deg; L: 20&deg;</div>
+            </div>
+            <div class="text-right">
+                <img src="https://cdn-icons-png.flaticon.com/512/1163/1163657.png" alt="Rainy Cloud" class="w-12 h-12">
+                <div class="text-sm">70% chance of rain</div>
+            </div>
+        </div>
+        
+        <div id="weather-list-container" class="bg-white shadow-lg rounded-lg py-6 px-4 mt-4 pb-6 draggable" draggable="true" ondragstart="drag(event)" ondragover="allowDrag(event)" ondrop="drop(event)">
+            <ul id="weather-list">
+                <li class="flex justify-between p-2 border-b">
+                    <span>Now</span> <span>30&deg;</span> 
+                    <img src="https://cdn-icons-png.flaticon.com/512/2530/2530064.png" alt="Snowflake" class="w-6 h-6">
+                    <span>80%</span>
+                </li>
+                <li class="flex justify-between p-2 border-b">
+                    <span>7AM</span> <span>30&deg;</span>
+                    <img src="https://cdn-icons-png.flaticon.com/512/1163/1163624.png" alt="Cloudy Night" class="w-6 h-6">
+                    <span>70%</span>
+                </li>
+                <li class="flex justify-between p-2 border-b">
+                    <span>7:09 AM</span> <span>Sunrise</span>
+                    <img src="https://cdn-icons-png.flaticon.com/512/8179/8179067.png" alt="Sunrise" class="w-8 h-8">
+                    <span>--</span>
+                </li>
+                <li class="flex justify-between p-2 border-b">
+                    <span>8AM</span> <span>32&deg;</span>
+                    <img src="https://cdn-icons-png.flaticon.com/512/1163/1163657.png" alt="Cloudy" class="w-6 h-6">
+                    <span>60%</span>
+                </li>
+                <li class="flex justify-between p-2">
+                    <span>9AM</span> <span>33&deg;</span>
+                    <img src="https://cdn-icons-png.flaticon.com/512/1163/1163661.png" alt="Partly Cloudy" class="w-6 h-6">
+                    <span>50%</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
